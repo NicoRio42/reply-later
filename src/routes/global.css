@@ -30,6 +30,7 @@ label {
 :root {
 	--font-size: 14px;
 	--primary: #00c46c;
+	--sv-swipe-panel-height: 4.125rem;
 }
 
 @media screen and (min-width: 576px) {
@@ -55,4 +56,8 @@ label {
 
 .btn-unset:focus {
 	box-shadow: none;
+}
+
+.swipe-indicator {
+	display: none !important;
 }
