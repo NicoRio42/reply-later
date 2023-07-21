@@ -3,9 +3,9 @@ import { writable, type Writable } from 'svelte/store';
 
 const key = 'replyLater';
 
-const initValue = 'localStorage' in globalThis ? localStorage.getItem(key) : null;
+const initRawValue = 'localStorage' in globalThis ? localStorage.getItem(key) : null;
 
-const toReplyStore = writable<ToReply[]>(initValue !== null ? JSON.parse(initValue) : []);
+const toReplyStore = writable<ToReply[]>(initRawValue !== null ? JSON.parse(initRawValue) : []);
 
 export const toReply: Writable<ToReply[]> = {
 	set(value: ToReply[]) {
@@ -17,8 +17,9 @@ export const toReply: Writable<ToReply[]> = {
 	},
 	update(updater) {
 		toReplyStore.update((value) => {
-			localStorage.setItem(key, JSON.stringify(value));
-			return updater(value);
+			const newValue = updater(value);
+			localStorage.setItem(key, JSON.stringify(newValue));
+			return newValue;
 		});
 	}
 };
