@@ -16,6 +16,9 @@ export const toReply: Writable<ToReply[]> = {
 		return toReplyStore.subscribe(subscriber, invalidate);
 	},
 	update(updater) {
-		toReplyStore.update(updater);
+		toReplyStore.update((value) => {
+			localStorage.setItem(key, JSON.stringify(value));
+			return updater(value);
+		});
 	}
 };
