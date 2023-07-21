@@ -6,23 +6,33 @@
 	import { toReply } from '$lib/stores/to-reply.store';
 </script>
 
-<main class="max-w-100 mx-auto pb-15 pt-6">
-	{#each $toReply as { name, type }}
-		<p>
-			{#if type === 'messenger'}
-				<Messenger class="h-5 w-5" />
-			{:else if type === 'whatsapp'}
-				<Whatsapp class="h-5 w-5" />
-			{:else if type === 'sms'}
-				<Sms class="h-5 w-5" />
-			{:else if type === 'email'}
-				<Email class="h-5 w-5" />
-			{/if}
+<main class="max-w-100 mx-auto pb-15 pt-10">
+	{#each $toReply as { name, type, id }}
+		<div class="flex justify-between items-center mb-10">
+			<p class="m-0">
+				{#if type === 'messenger'}
+					<Messenger class="h-6 w-6" />
+				{:else if type === 'whatsapp'}
+					<Whatsapp class="h-6 w-6" />
+				{:else if type === 'sms'}
+					<Sms class="h-6 w-6" />
+				{:else if type === 'email'}
+					<Email class="h-6 w-6" />
+				{/if}
 
-			<span class="ml-4">
-				{name}
-			</span>
-		</p>
+				<span class="ml-4">
+					{name}
+				</span>
+			</p>
+
+			<button
+				type="button"
+				class="btn-unset ml-20"
+				on:click={() => toReply.update((previous) => previous.filter((i) => i.id !== id))}
+			>
+				<i class="i-carbon-trash-can h-5 w-5 block" />
+			</button>
+		</div>
 	{:else}
 		<p class="mt-10">Nothing to reply later yet</p>
 	{/each}

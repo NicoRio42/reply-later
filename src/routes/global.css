@@ -29,6 +29,7 @@ label {
 
 :root {
 	--font-size: 14px;
+	--primary: #00c46c;
 }
 
 @media screen and (min-width: 576px) {
@@ -49,6 +50,7 @@ label {
 	background-color: transparent;
 	border: none;
 	width: unset;
+	color: var(--h1-color)
 }
 
 .btn-unset:focus {

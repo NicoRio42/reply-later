@@ -1,9 +1,21 @@
 import type { ToReply } from '$lib/models/to-reply';
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
-export const toReply = writable<ToReply[]>([
-	{ name: 'Papa', type: 'sms' },
-	{ name: 'Toto', type: 'whatsapp' },
-	{ name: 'My boss', type: 'messenger' },
-	{ name: 'Jean-Michel', type: 'email' }
-]);
+const key = 'replyLater';
+
+const initValue = 'localStorage' in globalThis ? localStorage.getItem(key) : null;
+
+const toReplyStore = writable<ToReply[]>(initValue !== null ? JSON.parse(initValue) : []);
+
+export const toReply: Writable<ToReply[]> = {
+	set(value: ToReply[]) {
+		localStorage.setItem(key, JSON.stringify(value));
+		toReplyStore.set(value);
+	},
+	subscribe(subscriber, invalidate) {
+		return toReplyStore.subscribe(subscriber, invalidate);
+	},
+	update(updater) {
+		toReplyStore.update(updater);
+	}
+};

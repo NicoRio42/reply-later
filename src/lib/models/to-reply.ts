@@ -1,3 +1,3 @@
 import type { MessageTypesEnum } from './enums/types.enum';
 
-export type ToReply = { name: string; type: MessageTypesEnum };
+export type ToReply = { id: string; name: string; type: MessageTypesEnum };

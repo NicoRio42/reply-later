@@ -4,9 +4,6 @@
 
 	import './global.css';
 	import 'uno.css';
-	import './pico.min.css';
-
-	export let data;
 
 	let tooFast = false;
 
