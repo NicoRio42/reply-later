@@ -1,0 +1,8 @@
+{
+	"name": "Reply later",
+	"short_name": "Reply later",
+	"description": "Reply to your messages in batches",
+	"icons": [],
+	"start_url": "/",
+	"display": "fullscreen"
+}
