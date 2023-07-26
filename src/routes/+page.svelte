@@ -5,6 +5,7 @@
 	import Whatsapp from '$lib/components/icons/Whatsapp.svelte';
 	import { toReply } from '$lib/stores/to-reply.store';
 	import { Swipe, SwipeItem } from 'svelte-swipe';
+	import { flip } from 'svelte/animate';
 
 	const swipeConfig = {
 		autoplay: false,
@@ -15,55 +16,59 @@
 	};
 
 	function handleChange(event: CustomEvent, id: string) {
-		if (event.detail.active_item === 1) {
-			toReply.update((previous) => previous.filter((i) => i.id !== id));
-		}
+		if (event.detail.active_item !== 1) return;
+
+		setTimeout(() => toReply.update((previous) => previous.filter((i) => i.id !== id)), 250);
 	}
 </script>
 
 <main class="w-100% pb-15 pt-10">
 	{#each $toReply as { name, type, id } (id)}
-		<Swipe {...swipeConfig} on:change={(e) => handleChange(e, id)}>
-			<SwipeItem>
-				{#if type === 'messenger'}
-					<p
-						class="m-0 p-4 flex text-6 font-bold justify-center items-center gap-8 h-auto bg-#0084FF"
-					>
-						<Messenger class="h-8 w-8" />
+		<div animate:flip>
+			<Swipe {...swipeConfig} on:change={(e) => handleChange(e, id)}>
+				<SwipeItem>
+					{#if type === 'messenger'}
+						<p
+							class="m-0 p-4 flex text-6 font-bold justify-center items-center gap-8 h-auto bg-#0084FF"
+						>
+							<Messenger class="h-8 w-8" />
 
-						{name}
+							{name}
+						</p>
+					{:else if type === 'whatsapp'}
+						<p
+							class="m-0 p-4 flex text-6 font-bold justify-center items-center gap-8 h-auto bg-#25d366"
+						>
+							<Whatsapp class="h-8 w-8" />
+
+							{name}
+						</p>
+					{:else if type === 'sms'}
+						<p
+							class="m-0 p-4 flex text-6 font-bold justify-center items-center gap-8 h-auto bg-red"
+						>
+							<Sms class="h-8 w-8" />
+
+							{name}
+						</p>
+					{:else if type === 'email'}
+						<p
+							class="m-0 p-4 flex text-6 font-bold justify-center items-center gap-8 h-auto bg-yellow"
+						>
+							<Email class="h-8 w-8" />
+
+							{name}
+						</p>
+					{/if}
+				</SwipeItem>
+
+				<SwipeItem>
+					<p class="m-0 flex justify-center items-center p-4">
+						<i class="i-carbon-trash-can h-8 w-8 block" />
 					</p>
-				{:else if type === 'whatsapp'}
-					<p
-						class="m-0 p-4 flex text-6 font-bold justify-center items-center gap-8 h-auto bg-#25d366"
-					>
-						<Whatsapp class="h-8 w-8" />
-
-						{name}
-					</p>
-				{:else if type === 'sms'}
-					<p class="m-0 p-4 flex text-6 font-bold justify-center items-center gap-8 h-auto bg-red">
-						<Sms class="h-8 w-8" />
-
-						{name}
-					</p>
-				{:else if type === 'email'}
-					<p
-						class="m-0 p-4 flex text-6 font-bold justify-center items-center gap-8 h-auto bg-yellow"
-					>
-						<Email class="h-8 w-8" />
-
-						{name}
-					</p>
-				{/if}
-			</SwipeItem>
-
-			<SwipeItem>
-				<p class="m-0 flex justify-center items-center p-4">
-					<i class="i-carbon-trash-can h-8 w-8 block" />
-				</p>
-			</SwipeItem>
-		</Swipe>
+				</SwipeItem>
+			</Swipe>
+		</div>
 
 		<!-- <div class="flex justify-between items-center py-4 px-8 w-100% bg-#0084FF bg-#25d366">
 			<p class="m-0">
